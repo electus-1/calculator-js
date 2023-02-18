@@ -1,0 +1,62 @@
+:root {
+    --width: 25vw;
+    --height: 60vh;
+    /*Display width is the bottleneck here. all other variables depend on it. */
+    --display-width: calc(var(--width) - 4vw);
+    --display-height: calc(var(--height) / 5);
+    --display-margin: calc((var(--width) - var(--display-width)) / 2);
+    --button-gap: calc(var(--display-width) / 10 / 3);
+    --button-width: calc(
+        (var(--display-width) - (var(--display-width) / 10)) / 4
+    );
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+.calculator-mainframe {
+    border: 1px solid red;
+    border-radius: 12px;
+    width: var(--width);
+    height: var(--height);
+    margin-left: calc((100vw - var(--width)) / 2);
+    margin-top: calc((100vh - var(--height)) / 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.display {
+    border-radius: 12px;
+    border: 1px solid green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-left: var(--display-margin);
+    width: var(--display-width);
+    height: var(--display-height);
+}
+
+.display-top,
+.display-bottom {
+    border: 1px solid blue;
+    height: calc(var(--display-height) / 2);
+    width: calc(var(--display-width) / 5);
+}
+.row {
+    width: var(--display-width);
+    margin-left: var(--display-margin);
+    display: flex;
+    align-items: center;
+    gap: var(--button-gap);
+}
+
+.button {
+    width: var(--button-width);
+}
+
+#equals-button {
+    width: calc(var(--button-width) * 2 + var(--button-gap));
+}
