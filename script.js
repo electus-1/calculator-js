@@ -61,7 +61,9 @@ function evaluateExpressionOnClickToEquals() {
             secondOperand = +operandFragments.join("");
             displayTop += ` ${secondOperand} ${equalsButton.textContent}`;
             let result = +operate(firstOperand, operator, secondOperand);
-            result = result.toFixed(8);
+            if (!Number.isInteger(result)) {
+                result = result.toFixed(8);
+            }
             firstOperand = null;
             operator = null;
             secondOperand = null;
@@ -176,6 +178,13 @@ function operate(op1, operator, op2) {
             return divide(op1, op2);
 
         case "%":
+            if (op1 == "0" && op2 != "0") {
+                return 0;
+            }
+            if (op2 == "0") {
+                alert("You cannot divide by 0. Will clear automatically.");
+                clear();
+            }
             return mod(op1, op2);
     }
 }
