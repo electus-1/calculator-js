@@ -65,7 +65,7 @@ function evaluateExpressionOnClickToEquals() {
             firstOperand = null;
             operator = null;
             secondOperand = null;
-            if (result !== Infinity && !isNaN(result)) {
+            if (isFinite(result) && !isNaN(result)) {
                 displayBottom = `${result}`;
                 updateDisplay();
             }
@@ -130,8 +130,8 @@ function clear() {
 }
 
 function updateDisplay() {
-    document.querySelector(".display-top").textContent = displayTop;
-    document.querySelector(".display-bottom").textContent = displayBottom;
+    document.querySelector(".display-top>.text").textContent = displayTop;
+    document.querySelector(".display-bottom>.text").textContent = displayBottom;
 }
 
 function isOperandEligible() {
