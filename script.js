@@ -8,35 +8,52 @@ let secondOperand = null;
 let operator = null;
 let displayTop = ``;
 let displayBottom = `0`;
+let evaluatedAlready = false;
+let result = null;
 
 main();
 
 function main() {
-    listenForOperatorButtonAndKeys();
+    attachEventListenersToOperators();
     attachEventListenersToNumbers();
     attachEventListenerToDot();
     handleClearAndBackspace();
     evaluateExpressionOnClickToEquals();
+    listenForKeyStrokes();
 }
 
-function listenForOperatorButtonAndKeys() {
+function clearPreviousExpression() {
+    if (evaluatedAlready) {
+        evaluatedAlready = false;
+        firstOperand = result;
+        result = null;
+    }
+}
+
+function attachEventListenersToOperators() {
     const operatorNodeList = document.querySelectorAll(".operator");
     operatorNodeList.forEach((operatorButton) => {
-        attachEventListenersToOperators(operatorButton);
-    });
-}
-
-function attachEventListenersToOperators(operatorButton) {
-    operatorButton.addEventListener("click", (e) => {
-        if (isOperandEligible() && operator === null) {
-            isDotUsable = true;
-            displayBottom = ``;
-            firstOperand = +operandFragments.join("");
-            operator = operatorButton.textContent;
-            displayTop = `${firstOperand} ${operator}`;
-            operandFragments.splice(0, operandFragments.length);
-            updateDisplay();
-        }
+        operatorButton.addEventListener("click", (e) => {
+            if (
+                firstOperand !== null &&
+                operator !== null &&
+                isOperandEligible()
+            ) {
+                document.querySelector("#evaluate").click();
+            }
+            if (isOperandEligible() && operator === null) {
+                clearPreviousExpression();
+                isDotUsable = true;
+                displayBottom = ``;
+                if (firstOperand === null) {
+                    firstOperand = +operandFragments.join("");
+                }
+                operator = operatorButton.textContent;
+                displayTop = `${firstOperand} ${operator}`;
+                operandFragments.splice(0, operandFragments.length);
+                updateDisplay();
+            }
+        });
     });
 }
 
@@ -44,6 +61,10 @@ function attachEventListenersToNumbers() {
     const numberNodeList = document.querySelectorAll(".number");
     numberNodeList.forEach((number) => {
         number.addEventListener("click", (e) => {
+            if (evaluatedAlready) {
+                clear();
+                clearPreviousExpression();
+            }
             if (isCleared) {
                 isCleared = false;
                 if (number.textContent !== "0") {
@@ -62,9 +83,10 @@ function evaluateExpressionOnClickToEquals() {
     const equalsButton = document.querySelector("#evaluate");
     equalsButton.addEventListener("click", (e) => {
         if (firstOperand !== null && operator !== null && isOperandEligible()) {
+            evaluatedAlready = true;
             secondOperand = +operandFragments.join("");
             displayTop += ` ${secondOperand} ${equalsButton.textContent}`;
-            let result = +operate(firstOperand, operator, secondOperand);
+            result = +operate(firstOperand, operator, secondOperand);
             if (!Number.isInteger(result)) {
                 result = parseFloat(result.toFixed(8));
             }
@@ -82,6 +104,10 @@ function evaluateExpressionOnClickToEquals() {
 function attachEventListenerToDot() {
     const dot = document.querySelector("#dot");
     dot.addEventListener("click", (e) => {
+        if (evaluatedAlready) {
+            clear();
+            clearPreviousExpression();
+        }
         if (isDotUsable) {
             isDotUsable = false;
             if (isCleared) {
@@ -132,6 +158,7 @@ function clear() {
     operator = null;
     displayTop = ``;
     displayBottom = `0`;
+    result = null;
     updateDisplay();
 }
 
@@ -142,6 +169,17 @@ function updateDisplay() {
 
 function isOperandEligible() {
     return operandFragments.length > 0;
+}
+
+function listenForKeyStrokes() {
+    document.addEventListener("keypress", (e) => {
+        let button = document.querySelector(
+            `button[data-id="${e.key.toLowerCase()}"]`
+        );
+        if (button != null) {
+            button.click();
+        }
+    });
 }
 
 function add(op1, op2) {
