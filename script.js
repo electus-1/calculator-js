@@ -1,3 +1,5 @@
+// TODO: FIX THE PROBLEM THAT LINE DOES NOT BREAK WHEN USER ENTERS A BIG NUMBER
+
 const operandFragments = [0];
 let isCleared = true;
 let isDotUsable = true;
@@ -59,8 +61,17 @@ function evaluateExpressionOnClickToEquals() {
             console.log("made it here");
             secondOperand = +operandFragments.join("");
             displayTop += ` ${secondOperand} ${equalsButton.textContent}`;
-            displayBottom = `${operate(firstOperand, operator, secondOperand)}`;
-            updateDisplay();
+            let result = +(+operate(
+                firstOperand,
+                operator,
+                secondOperand
+            )).toFixed(8);
+            if (result !== Infinity) {
+                displayBottom = `${result}`;
+                updateDisplay();
+            } else {
+                clear();
+            }
         }
     });
 }
@@ -118,6 +129,7 @@ function clear() {
     operator = null;
     displayTop = ``;
     displayBottom = `0`;
+    updateDisplay();
 }
 
 function updateDisplay() {
@@ -160,6 +172,10 @@ function operate(op1, operator, op2) {
             return multiply(op1, op2);
 
         case "/":
+            if (op2 == "0") {
+                alert("You cannot divide by 0. Cleared automatically.");
+                clear();
+            }
             return divide(op1, op2);
 
         case "%":

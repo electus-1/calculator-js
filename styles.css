@@ -44,6 +44,10 @@ body {
     border: 1px solid blue;
     height: calc(var(--display-height) / 2);
     width: calc(var(--display-width) / 5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 .row {
     width: var(--display-width);
