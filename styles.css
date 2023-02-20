@@ -26,8 +26,8 @@ html {
 }
 
 body {
-    background-color: #8bc6ec;
-    background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
+    background-color: #8ec5fc;
+    background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
     margin: 0;
     padding: 0;
 }
@@ -47,7 +47,7 @@ body {
 
 .display {
     background-color: var(--display-screen-third-color);
-    border-radius: 12px;
+    border-radius: 15px;
     /*border: 1px solid green;*/
     display: flex;
     flex-direction: column;
@@ -62,7 +62,6 @@ body {
 .display-bottom {
     /*border: 1px solid blue;*/
     height: calc(var(--display-height) / 2);
-    width: calc(var(--display-width) / 5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,4 +110,6 @@ button:active {
     padding: 0;
     word-break: break-all;
     font-size: 32px;
+    margin-right: calc(var(--display-width) / 20);
+    margin-left: calc(var(--display-width) / 20);
 }

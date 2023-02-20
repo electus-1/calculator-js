@@ -1,4 +1,4 @@
-// TODO: FIX THE PROBLEM THAT LINE DOES NOT BREAK WHEN USER ENTERS A BIG NUMBER
+// FIXME : FIX THE PROBLEM THAT LINE DOES NOT BREAK WHEN USER ENTERS A BIG NUMBER
 
 const operandFragments = [0];
 let isCleared = true;
@@ -12,27 +12,31 @@ let displayBottom = `0`;
 main();
 
 function main() {
-    attachEventListenersToOperators();
+    listenForOperatorButtonAndKeys();
     attachEventListenersToNumbers();
     attachEventListenerToDot();
     handleClearAndBackspace();
     evaluateExpressionOnClickToEquals();
 }
 
-function attachEventListenersToOperators() {
+function listenForOperatorButtonAndKeys() {
     const operatorNodeList = document.querySelectorAll(".operator");
     operatorNodeList.forEach((operatorButton) => {
-        operatorButton.addEventListener("click", (e) => {
-            if (isOperandEligible() && operator === null) {
-                isDotUsable = true;
-                displayBottom = ``;
-                firstOperand = +operandFragments.join("");
-                operator = operatorButton.textContent;
-                displayTop = `${firstOperand} ${operator}`;
-                operandFragments.splice(0, operandFragments.length);
-                updateDisplay();
-            }
-        });
+        attachEventListenersToOperators(operatorButton);
+    });
+}
+
+function attachEventListenersToOperators(operatorButton) {
+    operatorButton.addEventListener("click", (e) => {
+        if (isOperandEligible() && operator === null) {
+            isDotUsable = true;
+            displayBottom = ``;
+            firstOperand = +operandFragments.join("");
+            operator = operatorButton.textContent;
+            displayTop = `${firstOperand} ${operator}`;
+            operandFragments.splice(0, operandFragments.length);
+            updateDisplay();
+        }
     });
 }
 
@@ -62,7 +66,7 @@ function evaluateExpressionOnClickToEquals() {
             displayTop += ` ${secondOperand} ${equalsButton.textContent}`;
             let result = +operate(firstOperand, operator, secondOperand);
             if (!Number.isInteger(result)) {
-                result = result.toFixed(8);
+                result = parseFloat(result.toFixed(8));
             }
             firstOperand = null;
             operator = null;
