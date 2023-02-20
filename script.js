@@ -104,7 +104,7 @@ function handleClearAndBackspace() {
     deleteButton.addEventListener("click", (e) => {
         if (!isCleared && isOperandEligible()) {
             let deleted = operandFragments.pop();
-            if (deleted === ".") {
+            if (deleted == ".") {
                 isDotUsable = true;
             }
             displayBottom =
