@@ -58,19 +58,16 @@ function evaluateExpressionOnClickToEquals() {
     const equalsButton = document.querySelector("#evaluate");
     equalsButton.addEventListener("click", (e) => {
         if (firstOperand !== null && operator !== null && isOperandEligible()) {
-            console.log("made it here");
             secondOperand = +operandFragments.join("");
             displayTop += ` ${secondOperand} ${equalsButton.textContent}`;
-            let result = +(+operate(
-                firstOperand,
-                operator,
-                secondOperand
-            )).toFixed(8);
-            if (result !== Infinity) {
+            let result = +operate(firstOperand, operator, secondOperand);
+            result = result.toFixed(8);
+            firstOperand = null;
+            operator = null;
+            secondOperand = null;
+            if (result !== Infinity && !isNaN(result)) {
                 displayBottom = `${result}`;
                 updateDisplay();
-            } else {
-                clear();
             }
         }
     });
@@ -173,7 +170,7 @@ function operate(op1, operator, op2) {
 
         case "/":
             if (op2 == "0") {
-                alert("You cannot divide by 0. Cleared automatically.");
+                alert("You cannot divide by 0. Will clear automatically.");
                 clear();
             }
             return divide(op1, op2);
