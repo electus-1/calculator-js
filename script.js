@@ -14,6 +14,7 @@ let result = null;
 main();
 
 function main() {
+    document.querySelector("html").focus();
     attachEventListenersToOperators();
     attachEventListenersToNumbers();
     attachEventListenerToDot();
@@ -36,6 +37,8 @@ function attachEventListenersToOperators() {
         operatorButton.addEventListener("click", (e) => {
             if (
                 firstOperand !== null &&
+                !isNaN(firstOperand) &&
+                isFinite(firstOperand) &&
                 operator !== null &&
                 isOperandEligible()
             ) {
@@ -45,6 +48,9 @@ function attachEventListenersToOperators() {
                 clearPreviousExpression();
                 isDotUsable = true;
                 displayBottom = ``;
+                if (!isFinite(firstOperand) || isNaN(firstOperand)) {
+                    return;
+                }
                 if (firstOperand === null) {
                     firstOperand = +operandFragments.join("");
                 }
