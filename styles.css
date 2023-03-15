@@ -37,7 +37,7 @@ body {
     border: 5px solid var(--calculator-border-color);
     border-radius: 15px;
     width: var(--width);
-    height: var(--height);
+    min-height: var(--height);
     margin-left: calc((100vw - var(--width)) / 2);
     margin-top: calc((100vh - var(--height)) / 2);
     display: flex;
@@ -55,13 +55,15 @@ body {
     align-items: flex-end;
     margin-left: var(--display-margin);
     width: var(--display-width);
-    height: var(--display-height);
+    min-height: var(--display-height);
+    overflow: hidden;
 }
 
 .display-top,
 .display-bottom {
     /*border: 1px solid blue;*/
-    height: calc(var(--display-height) / 2);
+    min-height: calc(var(--display-height) / 2);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,6 +80,7 @@ body {
     font-family: var(--main-font);
     background-color: var(--button-color);
     border-color: var(--button-color);
+    min-height: min-content;
     width: var(--button-width);
     border-radius: 15px;
     border: 1px solid transparent;
